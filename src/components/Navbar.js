@@ -1,22 +1,32 @@
-import React from 'react'
-import styled from 'styled-components'
-
+import React, { useState } from "react";
+// import styled from 'styled-components';!
+import LoginModal from "./login-modal/LoginModal";
+import "./Navbar.styles";
+import { Container, NavbarWrap, NavFlex, Login, LoginText } from "./Navbar.styles";
 
 export default function Navbar() {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const handleShowLoginModal = () => {
+    setShowLoginModal(!showLoginModal);
+  };
   return (
-    <div className="">
-        <div>
-            Logo
-        </div>
+    <>
+      <Container>
+        <NavbarWrap>
+    
+            <NavFlex>
 
-        <div className=''>
-            <button className=''>
-                Login
-            </button>
-            <button>
-                Signup
-            </button>
-        </div>
-    </div>
-  )
+              <LoginModal show={showLoginModal} close={handleShowLoginModal} />
+
+              <Login>
+                <LoginText onClick={handleShowLoginModal}>Login</LoginText>
+              </Login>
+              <Login>
+                <LoginText>Signup</LoginText>
+              </Login>
+            </NavFlex>
+        </NavbarWrap>
+      </Container>
+    </>
+  );
 }
