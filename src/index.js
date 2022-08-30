@@ -5,6 +5,7 @@ import { createChart, CrosshairMode, ColorType } from 'lightweight-charts';
 import { priceData } from './priceData';
 // import { areaData } from './areaData';
 import Orderbook from './OrderBook';
+import LoginModal from './components/login-modal/LoginModal';
 import Navbar from './components/Navbar';
 import "./index.css"
 
@@ -161,17 +162,17 @@ function App() {
 
   return (
     <>
-    <Navbar/>
-    <div>
-    <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <button
+    <Navbar>
+    <LoginModal />
+    </Navbar>
+    <div className='subscribe'>
+      <button className='subscribe-button'
         onClick={handleClickSendMessage}
         disabled={readyState !== ReadyState.OPEN}
       >
         Subscribe
       </button>
-      <button
+      <button className='unsubscribe-button'
         onClick={handleClickUnSendMessage}
         disabled={readyState !== ReadyState.OPEN}
       >
