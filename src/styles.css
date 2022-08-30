@@ -15,3 +15,78 @@ body,
 .chart-container {
   flex: 1;
 }
+.container {
+  background-color: #000000;
+  padding-top: 25px;
+}
+.wrapper {
+  background-color: #16213E;
+  margin-left: 30px;
+  padding: 4px 0 30px 0;
+  width: 95%;
+  border-radius: 10px;
+}
+.order {
+  /* margin: 30px 0  0 40px; */
+  color: #117CA6;
+  display: flex;
+  justify-content: center;
+}
+.books {
+  color: #117CA6;
+  padding-left: 50px;
+}
+.subscribe-button {
+  background-color: #CFD2CF;
+  width: 90px;
+height: 50px;
+margin-bottom: 30px;
+margin-top: 20px;
+margin-right: 30px;
+margin-left: 30px;
+border-radius: 15%;
+color: #0F3460;
+border: #CFD2CF 1px solid;
+font-size: 16px;
+}
+.unsubscribe-button {
+  background-color: #CFD2CF;
+  width: 100px;
+height: 50px;
+margin-bottom: 30px;
+margin-top: 20px;
+margin-right: 30px;
+border-radius: 15%;
+color: #0F3460;
+border: #CFD2CF 1px solid;
+font-size: 16px;
+}
+.websocket {
+  font-size: 18px;
+  font-size: 'Montserrat', sans-serif;
+}
+.sub-button {
+  background-color: #CFD2CF;
+  width: 90px;
+height: 50px;
+margin-bottom: 30px;
+margin-top: 20px;
+margin-left: 30px;
+margin-right: 30px;
+border-radius: 15%;
+color: #0F3460;
+border: #CFD2CF 1px solid;
+font-size: 16px;
+}
+.unsub-button {
+  background-color: #CFD2CF;
+  width: 100px;
+height: 50px;
+margin-bottom: 30px;
+margin-top: 20px;
+margin-right: 30px;
+border-radius: 15%;
+color: #0F3460;
+border: #CFD2CF 1px solid;
+font-size: 16px;
+}

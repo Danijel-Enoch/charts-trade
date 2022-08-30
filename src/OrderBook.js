@@ -150,22 +150,23 @@ export default function Orderbook() {
     
   return (
     <>
-    <div>
-    <h1>OrderBooks </h1>
-      <h2>This is the OrderBooks</h2>
-      <button
+    <div className='container'>
+      <div className='wrapper'>
+    <h1 className='order'>Order Books </h1>
+      <h2 className='books'>This is the OrderBooks</h2>
+      <button className='sub-button'
         onClick={handleClickSendMessage}
         disabled={readyState !== ReadyState.OPEN}
       >
         Subscribe
       </button>
-      <button
+      <button className='unsub-button'
         onClick={handleClickUnSendMessage}
         disabled={readyState !== ReadyState.OPEN}
       >
         Unsubscribe
       </button>
-      <span>The WebSocket is currently {connectionStatus}</span>
+      <span className='websocket'>The WebSocket is currently {connectionStatus}</span>
       {/* {lastJsonMessage ? (
         <span>
           Last message: {JSON.stringify(lastJsonMessage.data, null, 4)}
@@ -180,6 +181,7 @@ export default function Orderbook() {
         ):null}
       
       
+      </div>
       </div>
       </div>
     </>
