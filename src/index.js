@@ -5,7 +5,8 @@ import { createChart, CrosshairMode, ColorType } from 'lightweight-charts';
 import { priceData } from './priceData';
 // import { areaData } from './areaData';
 import Orderbook from './OrderBook';
-// import { volumeData } from './volumeData';
+import Navbar from './components/Navbar';
+import "./index.css"
 
 import './styles.css';
 
@@ -160,6 +161,7 @@ function App() {
 
   return (
     <>
+    <Navbar/>
     <div>
     <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
