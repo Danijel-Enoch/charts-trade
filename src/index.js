@@ -5,7 +5,7 @@ import { createChart, CrosshairMode, ColorType } from 'lightweight-charts';
 import { priceData } from './priceData';
 // import { areaData } from './areaData';
 import Orderbook from './OrderBook';
-import { volumeData } from './volumeData';
+// import { volumeData } from './volumeData';
 
 import './styles.css';
 
@@ -15,7 +15,10 @@ function App() {
      return new Date(date).toISOString().slice(0, 10)     }
   let mydata=[
   ]
+  let myVolumedata=[
+  ]
   const[chartData,setchartData]=useState(mydata)
+  const[volumeData,setVolumeData]=useState(myVolumedata)
   const socketUrl = "wss://stream.binance.com:9443/stream";
  
 
@@ -57,6 +60,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setchartData(mydata);
+      setVolumeData(myVolumedata)
      // console.log(chartData)
     }, 30);
   });
@@ -68,8 +72,9 @@ function App() {
       if(typeof t!=="undefined"){
          const newTime=TimeCalculator(t)
         let bar={ time:t/1000,open:parseFloat(o),high:parseFloat(h),low:parseFloat(l),close:parseFloat(c)}
-        
+        let volume={time:t/1000,value:h}
         //console.log(newTime.toString())
+        myVolumedata.push(volume)
          mydata.push(bar)
         // console.log(bar)
       }      
@@ -125,6 +130,20 @@ function App() {
         console.log(chartData[chartData.length-1]);
         newSeries.update(chartData[chartData.length-1]);
       }
+
+    const volumeSeries = chart.addHistogramSeries({
+      color: '#182233',
+      lineWidth: 2,
+      priceFormat: {
+        type: 'volume',
+      },
+      overlay: true,
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
+    volumeSeries.setData(volumeData);
       
             
 

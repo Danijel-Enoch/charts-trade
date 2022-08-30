@@ -6,12 +6,17 @@ import { orderbookdata } from './orderbookData';
 import './styles.css';
 
 export default function Orderbook() {
-  function TimeCalculator(date) {
-    // console.log(typeof date)
-     return new Date(date).toISOString().slice(0, 10)     }
-  let mydata=[
-  ]
-  const[chartData,setchartData]=useState(mydata)
+  const [BidchartData,setBidchartData]=useState()
+  const [askchartData,setAskchartData]=useState()
+//  let chartData
+//  const setchartData =(data)=>chartData=data;
+  let ask;
+  let ask_amount
+  let bid;
+  let bid_amount;
+  let myBiddata;
+  let myAskdata;
+ 
   const socketUrl = "wss://stream.binance.com:9443/stream";
  
 
@@ -52,28 +57,24 @@ export default function Orderbook() {
   }[readyState];
   useEffect(() => {
     setTimeout(() => {
-      setchartData(mydata);
-     // console.log(chartData)
-    }, 30);
+      setAskchartData(myAskdata);
+      setBidchartData(myBiddata);
+      //console.log(mydata);
+    //console.log(BidchartData)
+    }, 300);
   });
-    messageHistory.current.map((message, idx) =>{
-          console.log(message.data)    
-    }
-    );
-    const {b,a}=orderbookdata
-    const ask=a.map(asks=>asks[0])
-    const bid=b.map(bids=>bids[0])
-    console.log(ask)
-    const dan= {
+  const setMyData = (order_amount,order,color) => {
+    return {
           
       series: [{
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        data: order_amount
       }],
       options: {
         chart: {
           type: 'bar',
-          height: 350
+          height: 200
         },
+        colors: color,
         plotOptions: {
           bar: {
             borderRadius: 4,
@@ -84,12 +85,63 @@ export default function Orderbook() {
           enabled: false
         },
         xaxis: {
-          categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-            'United States', 'China', 'Germany'
-          ],
+          categories:order,
         }
       }
     }
+  }
+    messageHistory.current.map((message, idx) =>{
+        //  console.log(message.data)   
+          let {b,a}=message.data || {}
+          //  console.log(a) 
+          // console.log(b)
+          if(typeof b!=="undefined"){
+        ask=a.map(asks=>asks[0])
+      ask_amount=a.map(asks_amount=>asks_amount[1])
+     bid=b.map(bids=>bids[0])
+     bid_amount=b.map(bids_amount=>bids_amount[1])
+      ask_amount=ask_amount.sort()
+      bid_amount=bid_amount.sort()
+      bid=bid.sort()
+      ask=ask.sort()
+    // console.log(bid_amount,ask_amount)
+    // console.log(bid,ask)
+
+        myAskdata=setMyData(ask_amount,ask,"#26a69a")
+        myBiddata=setMyData(bid_amount,bid,"#ef5350")
+
+    }
+
+  }
+    );
+
+    const {b,a}=orderbookdata
+    
+
+    // const dan= {
+          
+    //   series: [{
+    //     data: ask_amount
+    //   }],
+    //   options: {
+    //     chart: {
+    //       type: 'bar',
+    //       height: 350
+    //     },
+    //     plotOptions: {
+    //       bar: {
+    //         borderRadius: 4,
+    //         horizontal: true,
+    //       }
+    //     },
+    //     dataLabels: {
+    //       enabled: false
+    //     },
+    //     xaxis: {
+    //       categories:ask,
+    //     }
+    //   }
+    // }
   
 
     
@@ -114,14 +166,21 @@ export default function Orderbook() {
         Unsubscribe
       </button>
       <span>The WebSocket is currently {connectionStatus}</span>
-      {lastJsonMessage ? (
+      {/* {lastJsonMessage ? (
         <span>
           Last message: {JSON.stringify(lastJsonMessage.data, null, 4)}
         </span>
-      ) : null}</div>
+      ) : null}</div> */}
       <div style={{display: 'flex', flex: 1}}>
-      <Chart options={dan.options} series={dan.series} type="bar" height={440} />
+        {BidchartData?(
+          <Chart options={BidchartData.options} series={BidchartData.series} type="bar" height={500} />
+        ):null}
+        {askchartData?(
+          <Chart options={askchartData.options} series={askchartData.series} type="bar" height={500} />
+        ):null}
       
+      
+      </div>
       </div>
     </>
   );
