@@ -5,10 +5,14 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "lightweight-charts": "1.2.1",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-scripts": "3.0.1"
+    "apexcharts": "^3.35.5",
+    "lightweight-charts": "^1.2.1",
+    "multi-exchange-datafeeds": "^1.1.0",
+    "react": "^18.2.0",
+    "react-apexcharts": "^1.4.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "3.0.1",
+    "react-use-websocket": "^4.2.0"
   },
   "devDependencies": {
     "typescript": "3.3.3"

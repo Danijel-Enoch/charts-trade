@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef,useEffect,useState } from 'react';
 import ReactDOM from 'react-dom';
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { createChart, CrosshairMode, ColorType } from 'lightweight-charts';
+import { createChart, CrosshairMode } from 'lightweight-charts';
 import { priceData } from './priceData';
 // import { areaData } from './areaData';
 import Orderbook from './OrderBook';
@@ -58,7 +58,7 @@ function App() {
     setTimeout(() => {
       setchartData(mydata);
      // console.log(chartData)
-    }, 30);
+    }, 3000);
   });
     messageHistory.current.map((message, idx) =>{
           let {k}=message.data ||{}
@@ -67,7 +67,7 @@ function App() {
       
       if(typeof t!=="undefined"){
          const newTime=TimeCalculator(t)
-        let bar={ time:t/1000,open:parseFloat(o),high:parseFloat(h),low:parseFloat(l),close:parseFloat(c)}
+        let bar={ time:newTime.toString(),open:parseFloat(o),high:parseFloat(h),low:parseFloat(l),close:parseFloat(c)}
         
         //console.log(newTime.toString())
          mydata.push(bar)
@@ -75,69 +75,90 @@ function App() {
       }      
     }
     );
-    const chartContainerRef = useRef();
-    const backgroundColor = 'white'
-			const lineColor = '#2962FF'
-			const textColor = 'black'
-			const areaTopColor = '#2962FF'
-			const areaBottomColor = 'rgba(41, 98, 255, 0.28)'
 
-	useEffect(
-		() => {
-			const handleResize = () => {
-				chart.applyOptions({ width: chartContainerRef.current.clientWidth });
-			};
+  const chartContainerRef = useRef();
+  const chart = useRef();
+  const resizeObserver = useRef();
 
-			const chart = createChart(chartContainerRef.current, {
-        width: chartContainerRef.current.clientWidth,
-        height: chartContainerRef.current.clientHeight,
-        layout: {
-          backgroundColor: '#253248',
-          textColor: 'rgba(255, 255, 255, 0.9)',
+  useEffect(() => {
+    chart.current = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: chartContainerRef.current.clientHeight,
+      layout: {
+        backgroundColor: '#253248',
+        textColor: 'rgba(255, 255, 255, 0.9)',
+      },
+      grid: {
+        vertLines: {
+          color: '#334158',
         },
-        grid: {
-          vertLines: {
-            color: '#334158',
-          },
-          horzLines: {
-            color: '#334158',
-          },
+        horzLines: {
+          color: '#334158',
         },
-        crosshair: {
-          mode: CrosshairMode.Normal,
-        },
-        priceScale: {
-          borderColor: '#485c7b',
-        },
-        timeScale: {
-          borderColor: '#485c7b',
-        },
-			});
-			chart.timeScale().fitContent();
+      },
+      crosshair: {
+        mode: CrosshairMode.Normal,
+      },
+      priceScale: {
+        borderColor: '#485c7b',
+      },
+      timeScale: {
+        borderColor: '#485c7b',
+      },
+    });
 
-			const newSeries = chart.addBarSeries({ upColor: '#26a69a', downColor: '#ef5350' });
-			newSeries.setData(chartData);
-      if(chartData.length <=0){
-      console.log("no chart data available")
-      }
-      if(chartData.length >0){
-        console.log("Data Set");
-        console.log(chartData[chartData.length-1]);
-        newSeries.update(chartData[chartData.length-1]);
-      }
-      
-            
+    console.log(chart.current);
 
-			window.addEventListener('resize', handleResize);
+    const candleSeries = chart.current.addCandlestickSeries({
+      upColor: '#4bffb5',
+      downColor: '#ff4976',
+      borderDownColor: '#ff4976',
+      borderUpColor: '#4bffb5',
+      wickDownColor: '#838ca1',
+      wickUpColor: '#838ca1',
+    });
 
-			return () => {
-				window.removeEventListener('resize', handleResize);
+    candleSeries.setData(chartData);
 
-				chart.remove();
-			};
-		},
-		[chartData, backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]
-	);
+    // const areaSeries = chart.current.addAreaSeries({
+    //   topColor: 'rgba(38,198,218, 0.56)',
+    //   bottomColor: 'rgba(38,198,218, 0.04)',
+    //   lineColor: 'rgba(38,198,218, 1)',
+    //   lineWidth: 2
+    // });
+
+    // areaSeries.setData(areaData);
+
+    const volumeSeries = chart.current.addHistogramSeries({
+      color: '#182233',
+      lineWidth: 2,
+      priceFormat: {
+        type: 'volume',
+      },
+      overlay: true,
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
+
+    // volumeSeries.setData(volumeData);
+  }, []);
+
+  // Resize chart on container resizes.
+  useEffect(() => {
+    resizeObserver.current = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      chart.current.applyOptions({ width, height });
+      setTimeout(() => {
+        chart.current.timeScale().fitContent();
+      }, 0);
+    });
+
+    resizeObserver.current.observe(chartContainerRef.current);
+
+    return () => resizeObserver.current.disconnect();
+  }, []);
 
   return (
     <>
@@ -165,14 +186,9 @@ function App() {
     <div className="App">
       <div ref={chartContainerRef} className="chart-container" />
     </div>
-    <Orderbook/>
     </>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+ReactDOM.render(<App />, rootElement);
