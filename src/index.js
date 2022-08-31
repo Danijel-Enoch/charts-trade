@@ -184,11 +184,8 @@ function App() {
         Unsubscribe
       </button>
       <span>The WebSocket is currently {connectionStatus}</span>
-      {lastJsonMessage ? (
-        <span>
-          Last message: {JSON.stringify(lastJsonMessage.data, null, 4)}
-        </span>
-      ) : null}</div>
+    
+      </div>
     <div className="App">
       <div ref={chartContainerRef} className="chart-container" />
     </div>
