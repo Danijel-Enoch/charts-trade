@@ -70,6 +70,7 @@ export default function Orderbook() {
         data: order_amount
       }],
       options: {
+        
         chart: {
           type: 'bar',
           height: 200
@@ -85,6 +86,7 @@ export default function Orderbook() {
           enabled: false
         },
         xaxis: {
+          show:false,
           categories:order,
         }
       }
@@ -172,12 +174,12 @@ export default function Orderbook() {
           Last message: {JSON.stringify(lastJsonMessage.data, null, 4)}
         </span>
       ) : null}</div> */}
-      <div style={{display: 'flex', flex: 1}}>
+      <div>
         {BidchartData?(
-          <Chart options={BidchartData.options} series={BidchartData.series} type="bar" height={500} />
+          <Chart options={BidchartData.options} series={BidchartData.series} type="bar" height={300} />
         ):null}
         {askchartData?(
-          <Chart options={askchartData.options} series={askchartData.series} type="bar" height={500} />
+          <Chart options={askchartData.options} series={askchartData.series} type="bar" height={300} />
         ):null}
       
       

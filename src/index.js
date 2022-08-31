@@ -8,7 +8,7 @@ import Orderbook from './OrderBook';
 import LoginModal from './components/login-modal/LoginModal';
 import Navbar from './components/Navbar';
 import "./index.css"
-
+import LSratio from './LSratio';
 import './styles.css';
 
 function App() {
@@ -122,7 +122,7 @@ function App() {
 			});
 			chart.timeScale().fitContent();
 
-			const newSeries = chart.addBarSeries({ upColor: '#26a69a', downColor: '#ef5350' });
+			const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350' });
 			newSeries.setData(chartData);
       if(chartData.length <=0){
       console.log("no chart data available")
@@ -188,6 +188,7 @@ function App() {
       <div ref={chartContainerRef} className="chart-container" />
     </div>
     <Orderbook/>
+    <LSratio/>
     </>
   );
 }
