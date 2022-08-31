@@ -15,7 +15,6 @@ export default function LSratio() {
         }, {
           name: 'Top 20 Sellers',
           data: [53, 32, 33, 52, 13, 43, 32],
-          colors: ['#546E7A']
         }],
         options: {
             grid:{
@@ -52,21 +51,9 @@ export default function LSratio() {
               text: undefined
             },
           },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val + "K"
-              }
-            }
-          },
           fill: {
             opacity: 1
           },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
-          }
         },
       
       
@@ -79,7 +66,7 @@ export default function LSratio() {
 
 
   return (
-    <div id="chart">
+    <div id="wrapper">
     <Chart options={data.options} series={data.series} type="bar" height={350} />
   </div>
   

@@ -74,7 +74,7 @@ function App() {
       if(typeof t!=="undefined"){
          const newTime=TimeCalculator(t)
         let bar={ time:t/1000,open:parseFloat(o),high:parseFloat(h),low:parseFloat(l),close:parseFloat(c)}
-        let volume={time:t/1000,value:h}
+        let volume={time:t/1000,value:c}
         //console.log(newTime.toString())
         myVolumedata.push(volume)
          mydata.push(bar)
@@ -125,7 +125,7 @@ function App() {
 			const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350' });
 			newSeries.setData(chartData);
       if(chartData.length <=0){
-      console.log("no chart data available")
+      //console.log("no chart data available")
       }
       if(chartData.length >0){
         console.log("Data Set");
@@ -146,6 +146,11 @@ function App() {
       },
     });
     volumeSeries.setData(volumeData);
+    if(volumeData.length >0){
+      console.log("Data Set");
+      console.log(volumeData[volumeData.length-1]);
+      volumeSeries.update(volumeData[volumeData.length-1]);
+    }
       
             
 
